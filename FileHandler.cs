@@ -1,12 +1,14 @@
+using System.Collections;
 using System.Globalization;
 using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
-using Wahlomat.Optimization;
+using CsvHelper.TypeConversion;
+using Stupro.Optimization;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace Wahlomat;
+namespace Stupro;
 
 public class FileHandler
 {
@@ -32,26 +34,47 @@ public class FileHandler
         }
     }
     
-    public static void Import(string path, WahlomatModel wahlomatModel)
+    public static bool Import(string path, StuproModel stuproModel)
     {
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            Delimiter = ";", 
+            Encoding = Encoding.UTF8,
+        };
+        
         using var reader = new StreamReader(path);
         using var csv = new CsvReader(reader, config);
         csv.Read();
         var header = csv.ReadHeader();
-        for (var i = 1; i < csv.HeaderRecord.Length; i++)
+        if (!header)
         {
-            wahlomatModel.Projects.Add(csv.HeaderRecord[i]);
+            Console.WriteLine("Header missing in {path}");
+            return false;
         }
+        for (var i = 1; i < csv.HeaderRecord!.Length; i++)
+        {
+            stuproModel.Projects.Add(csv.HeaderRecord[i]);
+        }
+
+        var line = 2;
         while (csv.Read())
         {
             var student = csv.GetField("Name");
-            wahlomatModel.Students.Add(student);
-            foreach (var project in wahlomatModel.Projects)
+            if (student == null)
             {
-                wahlomatModel.Rating[(student, project)] = csv.GetField<int>(project);
+                Console.WriteLine($"Error reading {path}: No student name in line {line}!");
+                return false;
             }
+            stuproModel.Students.Add(student);
+            foreach (var project in stuproModel.Projects)
+            {
+                stuproModel.Rating[(student, project)] = csv.GetField<int>(project);
+            }
+
+            line++;
         }
+
+        return true;
     }
     
     public static Config.Config ReadConfigFile(string configPath)
@@ -63,5 +86,16 @@ public class FileHandler
         var yml = File.ReadAllText(configPath);   
         var config = deserializer.Deserialize<Config.Config>(yml);
         return config;
+    }
+
+    public static void WriteCsvFile(string outputPath, IEnumerable records)
+    {
+        var culture = new CultureInfo("");
+        culture.NumberFormat.NumberDecimalDigits = 2;
+        using (var writer = new StreamWriter(outputPath))
+        using (var csv = new CsvWriter(writer, culture))
+        {
+            csv.WriteRecords(records);
+        }
     }
 }

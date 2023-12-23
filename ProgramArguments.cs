@@ -1,6 +1,6 @@
 using Mono.Options;
 
-namespace Wahlomat;
+namespace Stupro;
 
 public class ProgramArguments
 {
@@ -15,7 +15,7 @@ public class ProgramArguments
     public bool Parse(string[] args)
     {
         var p = new OptionSet () {
-            "Usage: wahlomat [OPTIONS]+ path",
+            "Usage: stupro [OPTIONS]+ path",
             "Reads a csv file with student names and ratings for projects.\n" +
             "Assigns to each student a project to maximize or minimize the ratings.\n" +
             "Writes the result to <path>_result.csv and <path>_assignments.csv." +
@@ -43,9 +43,9 @@ public class ProgramArguments
             extra = p.Parse (args);
         }
         catch (OptionException e) {
-            Console.Write ("wahlomat: ");
+            Console.Write ("stupro: ");
             Console.WriteLine (e.Message);
-            Console.WriteLine ("Try `wahlomat --help' for more information.");
+            Console.WriteLine ("Try `stupro --help' for more information.");
             return false;
         }
 

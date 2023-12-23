@@ -1,5 +1,5 @@
-﻿using Wahlomat;
-using Wahlomat.Optimization;
+﻿using Stupro;
+using Stupro.Optimization;
 
 var arguments = new ProgramArguments();
 if (!arguments.Parse(args))
@@ -16,7 +16,7 @@ if (arguments.Generate)
 }
 
 var config = FileHandler.ReadConfigFile(arguments.ConfigPath);
-var model = new WahlomatModel(config);
+var model = new StuproModel(config);
 model.Solve(arguments.Path);
 
 

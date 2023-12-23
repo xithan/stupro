@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wahlomat", "Wahlomat.csproj", "{155156E0-15C7-441E-9377-F86C1CFE9363}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stupro", "Stupro.csproj", "{155156E0-15C7-441E-9377-F86C1CFE9363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

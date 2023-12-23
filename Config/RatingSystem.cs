@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
-using Wahlomat.config;
+using Stupro.config;
 
-namespace Wahlomat.Config;
+namespace Stupro.Config;
 
 public class RatingSystem
 {

@@ -2,37 +2,37 @@ using System.Collections;
 using System.Globalization;
 using CsvHelper;
 
-namespace Wahlomat.Optimization;
+namespace Stupro.Optimization;
 
 public class ResultCreator
 {
-    private WahlomatModel _wahlomatModel;
+    private StuproModel _stuproModel;
 
-    public ResultCreator(WahlomatModel wahlomatModel)
+    public ResultCreator(StuproModel stuproModel)
     {
-        _wahlomatModel = wahlomatModel;
+        _stuproModel = stuproModel;
     }
 
     public void PrintSolution(string inputPath)
     {
-        foreach (var student in _wahlomatModel.Students)
+        foreach (var student in _stuproModel.Students)
         {
-            foreach (var project in _wahlomatModel.Projects.Where(project => _wahlomatModel.Assignment[student, project].Value > 0))
+            foreach (var project in _stuproModel.Projects.Where(project => _stuproModel.Assignment[student, project].Value > 0))
             {
-                Console.WriteLine($"{student}: {project} ({_wahlomatModel.Rating[(student, project)]})");
+                Console.WriteLine($"{student}: {project} ({_stuproModel.Rating[(student, project)]})");
             }
         }
         
-        foreach (var project in _wahlomatModel.Projects)
+        foreach (var project in _stuproModel.Projects)
         {
             var participants = 
-                _wahlomatModel.Students.Where(s => _wahlomatModel.Assignment[s, project].Value > 0)
+                _stuproModel.Students.Where(s => _stuproModel.Assignment[s, project].Value > 0)
                     .ToList();
             var count = participants.Count();
-            var ratings = participants.Select(s => _wahlomatModel.Rating[(s, project)]).ToList();
+            var ratings = participants.Select(s => _stuproModel.Rating[(s, project)]).ToList();
             var totalRating = ratings.Sum();
             Console.WriteLine($"{project}: {count} Students, Total rating: {totalRating}");
-            _wahlomatModel.Results.Add(new ProjectResult()
+            _stuproModel.Results.Add(new ProjectResult()
             {
                 Project = project,
                 Students = participants,
@@ -49,21 +49,19 @@ public class ResultCreator
     {
         var withoutExtension = Path.Join(Path.GetDirectoryName(inputPath),
             Path.GetFileNameWithoutExtension(inputPath));
-        var outputPath = $"{withoutExtension}_result.csv";
-        using (var writer = new StreamWriter(outputPath))
-        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-        {
-            csv.WriteRecords((IEnumerable)_wahlomatModel.Results);
-        }
-        outputPath = $"{withoutExtension}_assignments.csv";
-        using (var pwriter = new StreamWriter(outputPath))
-            foreach(var result in _wahlomatModel.Results) {
-                pwriter.Write(result.Project);
-                foreach (var student in result.Students)
-                {
-                    pwriter.Write($";{student} ({_wahlomatModel.Rating[(student, result.Project)]})");
-                }
-                pwriter.WriteLine();
+        
+        var resultPath = $"{withoutExtension}_result.csv";
+        FileHandler.WriteCsvFile(resultPath, _stuproModel.Results);
+        
+        resultPath = $"{withoutExtension}_assignments.csv";
+        using var pwriter = new StreamWriter(resultPath);
+        foreach(var result in _stuproModel.Results) {
+            pwriter.Write(result.Project);
+            foreach (var student in result.Students)
+            {
+                pwriter.Write($";{student} ({_stuproModel.Rating[(student, result.Project)]})");
             }
+            pwriter.WriteLine();
+        }
     }
 }

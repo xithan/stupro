@@ -3,18 +3,17 @@ using OPTANO.Modeling.Optimization;
 using OPTANO.Modeling.Optimization.Configuration;
 using OPTANO.Modeling.Optimization.Enums;
 using OPTANO.Modeling.Optimization.Solver.Highs14x;
-using Wahlomat.config;
-using Wahlomat.Config;
+using Stupro.config;
+using Stupro.Config;
 using Objective = OPTANO.Modeling.Optimization.Objective;
 
-namespace Wahlomat.Optimization;
+namespace Stupro.Optimization;
 
 using Student = String;
 using Project = String;
     
-public class WahlomatModel
+public class StuproModel
 {
-    private readonly RatingSystemOption _ratingSystem;
     private  Model _model;
     private readonly Config.Config _config;
     private readonly ObjectiveSense _objectiveSense;
@@ -28,11 +27,10 @@ public class WahlomatModel
     
     public VariableCollection<string> WorstAssignment { get; set; }
     
-    public VariableCollection<string> WorstProject { get; set; }
     
     public List<ProjectResult> Results { get; set; }
     
-    public WahlomatModel(Config.Config config)
+    public StuproModel(Config.Config config)
     {
         Students = new List<Student>();
         Projects = new List<Project>();
@@ -43,13 +41,15 @@ public class WahlomatModel
         this._projectLimit = config.ProjectSizes["default"];
         this._objectiveSense =
             config.RatingSystem.System == RatingSystemOption.High ? ObjectiveSense.Maximize : ObjectiveSense.Minimize;
-        this._ratingSystem = config.RatingSystem.System;
         _resultCreator = new ResultCreator(this);
     }
     
     public void Solve(string path)
     {
-        FileHandler.Import(path, this);
+        if (!FileHandler.Import(path, this))
+        {
+            return;
+        }
         if (!this.Validate())
         {
             return;

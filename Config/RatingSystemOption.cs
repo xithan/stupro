@@ -1,4 +1,4 @@
-namespace Wahlomat.config;
+namespace Stupro.config;
 
 public enum RatingSystemOption
 {

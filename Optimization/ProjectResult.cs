@@ -1,4 +1,4 @@
-namespace Wahlomat.Optimization;
+namespace Stupro.Optimization;
 
 public class ProjectResult
 {

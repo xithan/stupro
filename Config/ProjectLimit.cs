@@ -1,4 +1,4 @@
-namespace Wahlomat.Config;
+namespace Stupro.Config;
 
 public class ProjectLimit
 {

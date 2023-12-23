@@ -1,6 +1,5 @@
-using YamlDotNet.Serialization;
-
-namespace Wahlomat.Config;
+// ReSharper disable CollectionNeverUpdated.Global
+namespace Stupro.Config;
 
 public class Config  
 {
