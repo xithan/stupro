@@ -8,7 +8,7 @@ Each student has rated each project.
 Assign each student to one project maximizing the over all satisfaction.
 
 ## Prerequisites
-- Install the [HiGHs solver](https://highs.dev/) 
+- Install the [HiGHs solver](https://highs.dev/). On Mac with Homebrew just run `brew install highs`
 - Download and extract the latest version of [Stupro](https://github.com/xithan/stupro/releases)
 
 ## Usage
