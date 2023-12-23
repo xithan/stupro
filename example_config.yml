@@ -2,7 +2,7 @@ objectives:
   total_rating: # Optimize the sum of the ratings of all assigned students
     active: true
     priority: 1
-    weight: 1.0
+    weight: 1.0 # The weight is only used for active objectives with the same priority 
   
   worst_assignment: # Optimize the sum of the worst rating for each project
     active: false
