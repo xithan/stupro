@@ -36,4 +36,4 @@ a path to a different yml file (`stupro input.csv -config=my_config.yml`)
 See [example_config.yml](https://github.com/xithan/stupro/blob/main/example_config.yml) for further details.
 
 The program can also generate test data.  
-Run the program with -h to get further informations about the parameters.
+Run the program with -h to get further information about the parameters.
