@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CsvHelper" Version="30.0.1" />
+      <PackageReference Include="Mono.Options" Version="6.12.0.148" />
+      <PackageReference Include="OPTANO.Modeling" Version="3.18.0.626" />
+      <PackageReference Include="OPTANO.Modeling.GLPK" Version="4.65.0" />
+      <PackageReference Include="OPTANO.Modeling.Gurobi" Version="10.0.1.33" />
+      <PackageReference Include="YamlDotNet" Version="13.7.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="config.yml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="example_config.yml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+</Project>

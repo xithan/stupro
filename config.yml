@@ -1,0 +1,23 @@
+objectives:
+  total_rating: # Optimize the sum of the ratings of all assigned students
+    active: true
+    priority: 1
+    weight: 1.0
+      
+  worst_assignment: # Optimize the sum of the worst rating for each project
+    active: false
+    priority: 2
+    weight: 2.0
+
+rating_system:
+  best_grade: 6
+  worst_grade: 1
+
+project_sizes:
+  default:
+    minimum: 1
+    maximum: 28
+  
+    
+    
+    
